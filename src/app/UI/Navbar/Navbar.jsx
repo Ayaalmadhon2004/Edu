@@ -12,18 +12,22 @@ export default function Navbar() {
                 <Link href="/">Header</Link>
             </li>
             <li>
-                <Link href="/teachers">teachers</Link>
+                <Link href="/Edu/teachers">teachers</Link>
             </li>
             <li>
-                <Link href="/courses">Courses</Link>
+                <Link href="/Edu/courses">Courses</Link>
             </li>
             <li>
-                <Link href="/about">About</Link>
+                <Link href="/Edu/about">About</Link>
             </li>
             <li>
-                <Link href="/contact">Contact</Link>
+                <Link href="/Edu/contact">Contact</Link>
             </li>
         </ul>
+        <div className={Nav.sign_log}>
+            <button type="submit"><Link href="Edu/sign">Sign up</Link></button>
+            <button type="submit"><Link href="Edu/log">Log in</Link></button>
+        </div>
     </div>
   )
 }

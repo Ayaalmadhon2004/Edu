@@ -1,5 +1,45 @@
-.navbar{
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--white);
+  background-color: var(--main-Red);
+  padding: 20px 300px;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--white);
+}
+
+.list {
+  display: flex;
+  align-items: center;
+}
+
+.list li {
+  list-style: none;
+  margin-left: 2rem;
+}
+
+.list li a {
+  text-decoration: none;
+  color: var(--white);
+  font-weight: 600;
+}
+.sign_log button{
+    background-color:transparent;
+    border:1px solid var(--white);
+    font-size:1rem;
+    margin-left:1rem;
+    padding:.6rem;
+}
+.sign_log button:hover{
+    background-color:var(--hover-Red);
+}
+.sign_log button a{
     color:var(--white);
-    background-color:var(--main-Red);
-    padding:20px 350px;
+    font-weight: 600;
+    text-decoration: none;
 }
