@@ -1,0 +1,5 @@
+.navbar{
+    color:var(--white);
+    background-color:var(--main-Red);
+    padding:20px 350px;
+}
