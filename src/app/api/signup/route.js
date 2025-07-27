@@ -1,18 +1,18 @@
-import clientPromise from "../../../lib/mongodb";  
-import {  NextResponse } from "next/server"; // NextResponse used to create responses in API
+import clientPromise from "../../../lib/mongodb";
+import { NextResponse } from "next/server";
 
 export async function POST(req) {
-  const body = await req.json();
-  const { fullname, phone, email, password } = body;
-
-  if (!fullname || !phone || !email || !password) {
-    return NextResponse.json({ message: "Missing fields" }, { status: 400 });
-  }
-
   try {
+    const body = await req.json();
+    const { fullname, phone, email, password } = body;
+
+    if (!fullname || !phone || !email || !password) {
+      return NextResponse.json({ message: "Missing fields" }, { status: 400 });
+    }
+
     const client = await clientPromise;
     const db = client.db("Education");
-    const users = db.collection("users");
+    const users = db.collection("Edu-users");
 
     const existing = await users.findOne({ email });
     if (existing) {
@@ -20,9 +20,11 @@ export async function POST(req) {
     }
 
     await users.insertOne({ fullname, phone, email, password });
+
     return NextResponse.json({ message: "User created successfully" }, { status: 201 });
 
   } catch (error) {
-    return NextResponse.json({ message: "Server error" }, { status: 500 });
+    console.error("🔥 SIGNUP ERROR:", error); 
+    return NextResponse.json({ message: "Server error", error: error.message }, { status: 500 });
   }
 }
