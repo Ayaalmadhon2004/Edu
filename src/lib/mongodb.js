@@ -16,6 +16,7 @@ if (process.env.NODE_ENV === "development") { // means in npm run dev
     global._mongoClientPromise = client.connect(); // so here i save the connection inside global to use it always and not reconnect every time 
   }
   clientPromise = global._mongoClientPromise;
+  console.log('MongoDB URI:', process.env.MONGODB_URI);
 }
   else { // production mode, like when deployed on Vercel
   client = new MongoClient(uri, options);
