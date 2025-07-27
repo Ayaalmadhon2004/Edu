@@ -38,7 +38,7 @@
 .sign_log button:hover{
     background-color:var(--hover-Red);
 }
-.sign_log button a{
+.sign_log button {
     color:var(--white);
     font-weight: 600;
     text-decoration: none;

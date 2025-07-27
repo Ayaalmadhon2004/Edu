@@ -1,7 +1,11 @@
+'use client';
+
+import { useRouter } from "next/navigation";
 import Nav from "./Navbar.module.css";
 import Link from "next/link";
 
 export default function Navbar() {
+    const router = useRouter();
   return (
     <div className={Nav.navbar}>
         <div className={Nav.logo}>
@@ -25,8 +29,8 @@ export default function Navbar() {
             </li>
         </ul>
         <div className={Nav.sign_log}>
-            <button type="submit"><Link href="Edu/sign">Sign up</Link></button>
-            <button type="submit"><Link href="Edu/log">Log in</Link></button>
+            <button type="submit" onClick={() => router.push('/Edu/sign')}>Sign Up</button>
+            <button type="submit" onClick={() => router.push('/Edu/log')}>Log in</button>
         </div>
     </div>
   )
