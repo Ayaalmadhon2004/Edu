@@ -1,0 +1,142 @@
+.image {
+  border: 1px solid var(--main-Red);
+  margin: 1rem;
+}
+
+.image:nth-child(1) {
+  /* يمكنك إضافة تأثير معين هنا */
+}
+
+.image:nth-child(2) {
+  position: absolute;
+  bottom: 10px;
+  left: 220px;
+}
+
+.img{
+    margin-left:5rem;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  gap:5rem;
+  padding:20px 300px;
+  position: relative;
+}
+
+.text {
+  max-width: 700px;
+  color: var(--black);
+  padding: 20px;
+  line-height: 1.6;
+  font-family: Arial, sans-serif;
+}
+
+.text h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--main-Red);
+}
+
+.text h3 {
+  font-weight: 400;
+  margin-bottom: 1rem;
+  color: var(--black);
+}
+
+.text p {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: var(--gray-text);
+}
+
+.text > div > div {
+  margin-bottom: .5rem;
+}
+
+.text h4 {
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+  color: var(--black);
+}
+
+.btn {
+  font-weight: 700;
+  color:var(--white);
+  background-color: var(--main-Red);
+  cursor: pointer;
+  margin-top: 2rem;
+  padding:1rem;
+  border:none;
+  border-radius:20px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.btn:hover{
+    background-color:var(--hover-Red);
+}
+
+.videoTour {
+  height: 80vh;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('/assets/images/computer-book-reading-planning-ideas-students.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+.videoTour h3{
+    font-size:2rem;
+}
+
+.click{
+    background-color:var(--main-Red);
+    padding:1.8rem;
+    border-radius:50%;
+    color:var(--white);
+    font-weight: bold;
+    border:none;
+    font-size:1.5rem;
+    text-align: center;
+    justify-content: center;
+    border:2px solid var(--white);
+    margin-bottom:2rem;
+    
+  position: relative;
+  z-index: 1;
+  animation: pulse 2s infinite;
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6);
+  transition: transform 0.3s ease;
+}
+
+.click:hover{
+    background-color:var(--hover-Red);
+    cursor:pointer;
+}
+
+.click a{
+    text-decoration: none;
+    color:var(--white);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(255, 255, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+

@@ -31,6 +31,7 @@ export default function Navbar() {
         <div className={Nav.sign_log}>
             <button type="submit" onClick={() => router.push('/Edu/sign')}>Sign Up</button>
             <button type="submit" onClick={() => router.push('/Edu/log')}>Log in</button>
+            <button type="submit" onClick={() => router.push('/Edu/Cart')}><i className="fa-solid fa-cart-shopping"></i></button>
         </div>
     </div>
   )

@@ -1,8 +1,9 @@
-import Header from "../app/UI/Header/Header";
+import { MainAbout } from "./Edu/about/page";
 
 export default function Home() {
   return (
    <>
+   <MainAbout/>
    </>
   );
 }
