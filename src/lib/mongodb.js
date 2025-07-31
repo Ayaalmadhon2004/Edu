@@ -1,12 +1,15 @@
-// lib/mongodb.js
 import { MongoClient } from "mongodb";
 
 const uri = process.env.MONGODB_URI;
-const options = {};
 
 if (!uri) {
   throw new Error("يرجى إضافة MONGODB_URI إلى ملف .env.local");
 }
+
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
 
 let client;
 let clientPromise;

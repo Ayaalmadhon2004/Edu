@@ -1,24 +1,28 @@
-import { connectToDB } from '@/utils/db'; // your db connection file
-import Course from '@/models/Course'; // your Mongoose model
-import { NextApiRequest, NextApiResponse } from 'next';
+import clientPromise from "@/lib/mongodb";
+import { NextResponse } from "next/server";
+import { ObjectId } from "mongodb";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { id } = req.query;
+export async function DELETE(request, { params }) {
+  try {
+    const { id } = params;
 
-  await connectToDB();
-
-  if (req.method === 'DELETE') {
-    try {
-      const deleted = await Course.findByIdAndDelete(id);
-      if (!deleted) {
-        return res.status(404).json({ message: 'Course not found' });
-      }
-      res.status(200).json({ message: 'Course deleted' });
-    } catch (error) {
-      res.status(500).json({ message: 'Server error', error });
+    if (!ObjectId.isValid(id)) {
+      return NextResponse.json({ message: "Invalid course ID" }, { status: 400 });
     }
-  } else {
-    res.setHeader('Allow', ['DELETE']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+
+    const client = await clientPromise;
+    const db = client.db("Education");
+    const collection = db.collection("CourseDataList");
+
+    const result = await collection.deleteOne({ _id: new ObjectId(id) });
+
+    if (result.deletedCount === 0) {
+      return NextResponse.json({ message: "Course not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: "Course deleted successfully" }, { status: 200 });
+  } catch (error) {
+    console.error("❌ Delete API error:", error);
+    return NextResponse.json({ message: "Server error", error: error.message }, { status: 500 });
   }
 }

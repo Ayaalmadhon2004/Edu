@@ -19,26 +19,37 @@ interface Course {
 export default function Page() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
+  // Fetch courses from API
   useEffect(() => {
     async function fetchCourses() {
       try {
         const res = await fetch('/api/courses');
+
+        if (!res.ok) {
+          throw new Error(`Server error: ${res.status}`);
+        }
+
         const data = await res.json();
 
         if (!Array.isArray(data)) {
-          setError('Error loading courses.');
-          return;
+          throw new Error('Invalid data format received.');
         }
+
         setCourses(data);
-      } catch (error) {
-        setError('Error connecting to the server.');
+      } catch (err) {
+        console.error(err);
+        setError('Error loading courses. Please try again later.');
+      } finally {
+        setLoading(false);
       }
     }
 
     fetchCourses();
   }, []);
 
+  // Delete course handler
   const handleDelete = async (id: string) => {
     const confirmed = confirm('Are you sure you want to delete this course?');
     if (!confirmed) return;
@@ -49,14 +60,14 @@ export default function Page() {
       });
 
       if (!res.ok) {
-        throw new Error('Delete failed');
+        throw new Error(`Delete failed with status ${res.status}`);
       }
 
-      // Remove course from UI
+      // Update UI after delete
       setCourses((prev) => prev.filter((course) => course._id !== id));
-    } catch (error) {
-      alert('Failed to delete course.');
-      console.error(error);
+    } catch (err) {
+      console.error(err);
+      alert('Failed to delete course. Please try again.');
     }
   };
 
@@ -64,11 +75,15 @@ export default function Page() {
     <div className={dash.container}>
       <h1 className={dash.title}>Courses Dashboard</h1>
 
+      {loading && <p>Loading courses...</p>}
+
       {error && <p className={dash.error}>{error}</p>}
 
-      {!error && courses.length === 0 && <p>No courses available at the moment.</p>}
+      {!loading && !error && courses.length === 0 && (
+        <p>No courses available at the moment.</p>
+      )}
 
-      {courses.length > 0 && (
+      {!loading && !error && courses.length > 0 && (
         <table className={dash.table}>
           <thead>
             <tr>
