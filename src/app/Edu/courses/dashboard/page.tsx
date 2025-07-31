@@ -21,21 +21,15 @@ export default function Page() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Fetch courses from API
+  // Fetch courses from API on mount
   useEffect(() => {
     async function fetchCourses() {
       try {
         const res = await fetch('/api/courses');
-
-        if (!res.ok) {
-          throw new Error(`Server error: ${res.status}`);
-        }
+        if (!res.ok) throw new Error(`Server error: ${res.status}`);
 
         const data = await res.json();
-
-        if (!Array.isArray(data)) {
-          throw new Error('Invalid data format received.');
-        }
+        if (!Array.isArray(data)) throw new Error('Invalid data format received.');
 
         setCourses(data);
       } catch (err) {
@@ -45,29 +39,48 @@ export default function Page() {
         setLoading(false);
       }
     }
-
     fetchCourses();
   }, []);
 
-  // Delete course handler
+  // Delete a course
   const handleDelete = async (id: string) => {
-    const confirmed = confirm('Are you sure you want to delete this course?');
-    if (!confirmed) return;
+    if (!confirm('Are you sure you want to delete this course?')) return;
 
     try {
-      const res = await fetch(`/api/courses/${id}`, {
-        method: 'DELETE',
-      });
+      const res = await fetch(`/api/courses/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error(`Delete failed with status ${res.status}`);
 
-      if (!res.ok) {
-        throw new Error(`Delete failed with status ${res.status}`);
-      }
-
-      // Update UI after delete
-      setCourses((prev) => prev.filter((course) => course._id !== id));
+      setCourses(prev => prev.filter(course => course._id !== id));
     } catch (err) {
       console.error(err);
       alert('Failed to delete course. Please try again.');
+    }
+  };
+   
+  const handleUpdate = async (id: string) => {
+    const updatedCourse = {
+      title: "Updated Course Title",
+      description: "Updated description",
+      price: 99
+    };
+
+    try {
+      const res = await fetch(`/api/courses/${id}`, {
+        method: 'PUT',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedCourse)
+      });
+      if (!res.ok) throw new Error(`Update failed`);
+
+      setCourses(prev =>
+        prev.map(course =>
+          course._id === id ? { ...course, ...updatedCourse } : course
+        )
+      );
+      alert("Course updated successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to update course. Please try again.");
     }
   };
 
@@ -79,9 +92,7 @@ export default function Page() {
 
       {error && <p className={dash.error}>{error}</p>}
 
-      {!loading && !error && courses.length === 0 && (
-        <p>No courses available at the moment.</p>
-      )}
+      {!loading && !error && courses.length === 0 && <p>No courses available at the moment.</p>}
 
       {!loading && !error && courses.length > 0 && (
         <table className={dash.table}>
@@ -98,7 +109,7 @@ export default function Page() {
             </tr>
           </thead>
           <tbody>
-            {courses.map((course) => (
+            {courses.map(course => (
               <tr key={course._id}>
                 <td>{course.title}</td>
                 <td>{course.description}</td>
@@ -113,6 +124,12 @@ export default function Page() {
                     onClick={() => handleDelete(course._id)}
                   >
                     Delete
+                  </button>
+                  <button
+                    className={dash.updateBtn}
+                    onClick={() => handleUpdate(course._id)}
+                  >
+                    Update
                   </button>
                 </td>
               </tr>

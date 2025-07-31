@@ -26,6 +26,14 @@ export default function CartPage() {
     }
   }, []);
 
+  const handleDelete = (course: Course) => {
+    const updatedCart = cart.filter(item => item._id !== course._id);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    setCartCourses(updatedCart);
+  };
+
+  const totalPrice=cart.reduce((total,item)=>total+item.price,0);
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Your Cart</h1>
@@ -36,7 +44,7 @@ export default function CartPage() {
           {cart.map((item) => (
             <li key={item._id} className={styles.cartItem}>
               <img
-                src={item.image}
+                src={item.image}  
                 alt={item.title}
               />
               <div className={styles.cartItemDetails}>
@@ -44,8 +52,14 @@ export default function CartPage() {
                 <h3>{item.subtitle}</h3>
                 <p>Price: ${item.price}</p>
               </div>
+              <i
+                className="fa-solid fa-xmark"
+                onClick={() => handleDelete(item)}
+                style={{ cursor: 'pointer' }}
+              ></i>
             </li>
           ))}
+          <h2>Total Price : ${totalPrice}</h2>
         </ul>
       )}
     </div>
